@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ignite_flutter_todo_list/builder_widget.dart';
-import 'package:ignite_flutter_todo_list/home_controller.dart';
+import '/builder_widget.dart';
+import '/home_controller.dart';
 
 import 'screens/done_screen.dart';
 import 'screens/task_screen.dart';
@@ -12,8 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _toDoItemListController = HomeController();
-  final _doneItemListController = HomeController();
+  final controller = HomeController();
 
   final _pageViewController = PageController(
     initialPage: 0,
@@ -21,39 +20,6 @@ class _HomePageState extends State<HomePage> {
   );
 
   var _selectedIndex = 0;
-
-  void onAddItem(String itemTitle) {
-    _toDoItemListController.onAddItem(
-      ToDoItem(title: itemTitle),
-    );
-  }
-
-  void onResetItem(ToDoItem item) {
-    _doneItemListController.onRemoveItem(item);
-
-    _toDoItemListController.onAddItem(
-      ToDoItem(title: item.title),
-    );
-  }
-
-  void onRemoveToDoItem(ToDoItem item) {
-    _toDoItemListController.onRemoveItem(item);
-  }
-
-  void onRemoveDoneItem(ToDoItem item) {
-    _doneItemListController.onRemoveItem(item);
-  }
-
-  void onCompleteItem(ToDoItem item) {
-    _toDoItemListController.onRemoveItem(item);
-
-    _doneItemListController.onAddItem(
-      ToDoItem(
-        title: item.title,
-        isDone: true,
-      ),
-    );
-  }
 
   @override
   void dispose() {
@@ -69,23 +35,23 @@ class _HomePageState extends State<HomePage> {
         controller: _pageViewController,
         children: <Widget>[
           BuilderWidget<ToDoItem>(
-            controller: _toDoItemListController,
-            builder: (context, state) {
+            controller: controller,
+            builder: (context) {
               return TaskScreen(
-                itemList: state,
-                onAddItem: onAddItem,
-                onCompleteItem: onCompleteItem,
-                onRemoveItem: onRemoveToDoItem,
+                itemList: controller.toDoItemList,
+                onAddItem: controller.onAddItem,
+                onCompleteItem: controller.onCompleteItem,
+                onRemoveItem: controller.onRemoveToDoItem,
               );
             },
           ),
           BuilderWidget<ToDoItem>(
-            controller: _doneItemListController,
-            builder: (context, state) {
+            controller: controller,
+            builder: (context) {
               return DoneScreen(
-                itemList: state,
-                onRemoveItem: onRemoveDoneItem,
-                onResetItem: onResetItem,
+                itemList: controller.doneItemList,
+                onRemoveItem: controller.onRemoveDoneItem,
+                onResetItem: controller.onResetItem,
               );
             },
           ),

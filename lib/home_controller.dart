@@ -1,15 +1,49 @@
 import 'gerencia_de_estado.dart';
 import 'shared/models/todo_item.dart';
 
-class HomeController extends GerenciaDeEstado<ToDoItem> {
-  // final _toDoItemList = <ToDoItem>[];
-  // final _doneItemList = <ToDoItem>[];
+class HomeController extends GerenciaDeEstado {
+  final _toDoItemList = <ToDoItem>[];
+  final _doneItemList = <ToDoItem>[];
 
-  void onAddItem(ToDoItem state) {
-    super.setState(state);
+  List<ToDoItem> get toDoItemList => _toDoItemList;
+  List<ToDoItem> get doneItemList => _doneItemList;
+
+  void onAddItem(String itemTitle) {
+    _toDoItemList.add(ToDoItem(title: itemTitle));
+    super.setState();
   }
 
-  void onRemoveItem(ToDoItem state) {
-    super.removeState(state);
+  void onResetItem(ToDoItem item) {
+    _doneItemList.remove(item);
+    _toDoItemList.add(ToDoItem(
+      title: item.title,
+      isDone: false,
+    ));
+
+    super.setState();
+  }
+
+  void onRemoveToDoItem(ToDoItem item) {
+    _toDoItemList.remove(item);
+
+    super.setState();
+  }
+
+  void onRemoveDoneItem(ToDoItem item) {
+    _doneItemList.remove(item);
+
+    super.setState();
+  }
+
+  void onCompleteItem(ToDoItem item) {
+    _toDoItemList.remove(item);
+    _doneItemList.add(
+      ToDoItem(
+        title: item.title,
+        isDone: true,
+      ),
+    );
+
+    super.setState();
   }
 }

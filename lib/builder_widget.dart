@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:ignite_flutter_todo_list/gerencia_de_estado.dart';
+import '/gerencia_de_estado.dart';
 
 class BuilderWidget<T> extends StatefulWidget {
-  final GerenciaDeEstado<T> controller;
+  final GerenciaDeEstado controller;
 
-  final Widget Function(BuildContext context, List<T> state) builder;
+  final Widget Function(BuildContext context) builder;
 
   BuilderWidget({
     Key? key,
@@ -21,7 +21,7 @@ class _BuilderWidgetState<T> extends State<BuilderWidget<T>> {
   @override
   void initState() {
     widget.controller.listen(
-      (state) {
+      () {
         if (mounted) {
           setState(() {});
         }
@@ -32,6 +32,6 @@ class _BuilderWidgetState<T> extends State<BuilderWidget<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.builder(context, widget.controller.state);
+    return widget.builder(context);
   }
 }

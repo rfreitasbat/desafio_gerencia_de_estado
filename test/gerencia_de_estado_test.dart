@@ -6,23 +6,23 @@ import 'package:ignite_flutter_todo_list/home_controller.dart';
 void main() {
   var texto = "texto inicial";
 
-  late GerenciaDeEstado controller;
+  late HomeController controller;
 
   setUp(() {
     controller = HomeController();
   });
 
-  // test("Testando A Gerencia de Estado", () {
-  //   controller.listen((state) {
-  //     expect(controller.state, texto);
-  //   });
-  //   controller.listen((state) {
-  //     expect(controller.state, texto);
-  //   });
+  test("Testando a Gerencia de Estado da HomeController", () {
+    controller.listen(() {
+      expect(controller.toDoItemList.length, 1);
+    });
+    // controller.listen((state) {
+    //   expect(controller.state, texto);
+    // });
 
-  //   controller.setState(texto);
+    controller.onAddItem("teste");
 
-  //   texto = "teste";
-  //   controller.setState(texto);
-  // });
+    // texto = "teste";
+    // controller.setState(texto);
+  });
 }
