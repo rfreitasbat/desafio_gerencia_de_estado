@@ -16,13 +16,7 @@ void main() {
     controller.listen(() {
       expect(controller.toDoItemList.length, 1);
     });
-    // controller.listen((state) {
-    //   expect(controller.state, texto);
-    // });
 
     controller.onAddItem("teste");
-
-    // texto = "teste";
-    // controller.setState(texto);
   });
 }
